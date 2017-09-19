@@ -1,0 +1,294 @@
+ #include<stdio.h>
+
+  #include<string>
+
+  #include<conio.h>
+
+  #define MAXSIZE 100
+
+  typedef float datatype;
+
+ 
+
+  typedef struct
+
+  {
+
+      datatype a[MAXSIZE];
+
+     int top;
+
+ }sequence_stack;
+
+
+
+ typedef struct
+
+ 
+{
+     char b[MAXSIZE];
+
+     int top;
+
+ }SeqStack;
+
+　　
+
+
+
+  int operation(char op)//判断是否为操作符
+
+   {
+
+      switch(op)
+
+     {
+
+     case'+':
+
+      case'-':
+
+      case'*':
+
+      case'/':return 1;
+
+      default:return 0;
+
+     }
+
+ }
+
+ int priority(char op)//判断操作符的优先级
+
+ {
+
+     switch(op)
+
+     {
+
+         case'#':return -1;
+
+         case'(':return 0;
+
+        case'+':
+
+         case'-':return 1;
+
+         case'*':
+
+         case'/':return 2;
+
+         default: return -1;
+
+    }
+
+ }
+
+ //将中缀表达式转换为后缀表达式
+
+ void postfix(char e[],char f[],SeqStack *s,sequence_stack *s1)
+
+ {
+
+     int i=0,j=0;
+
+     int t;
+
+     push_SeqStack(s,'#');
+
+     while(e[i]!='#')
+     {
+
+         if((e[i]>='0'&&e[i]<='9')||e[i]=='.')
+
+           f[j++]=e[i];
+
+         else if(e[i]=='(')
+
+         {
+
+         push_SeqStack(s,e[i]);
+
+         }
+
+         else if(e[i]==')')
+
+         {
+
+             t=s->top-1;
+
+             while(s->b[t]!='(')
+
+             {
+
+                 f[j++]=s->b[--s->top];
+
+                 t=s->top-1;
+
+             }
+
+             s->top--;
+
+         }
+
+         else if(operation(e[i]))
+
+         {
+
+             f[j++]=' ';
+
+             while(priority(s->b[s->top-1])>=priority(e[i]))
+
+             f[j++]=s->b[--s->top];
+
+             push_SeqStack(s,e[i]);
+
+         }
+
+         i++;
+
+     }
+
+     while (s->top)f[j++]=s->b[--s->top];
+
+     {}
+
+    evalpost(f,s1);
+
+ }
+
+
+  float readnumber(char f[],int *i)//将数字字符串转变为数
+
+  {
+
+      float x=0.0;
+
+      int k=0;
+
+      while(f[*i]>='0'&&f[*i]<='9')
+
+      {
+
+          x=x*10+(f[*i]-'0');
+
+          (*i)++;
+
+      }
+
+     if(f[*i]=='.')
+
+     {
+
+         (*i)++;
+
+         while(f[*i]>='0'&&f[*i]<='9')
+
+         {
+
+             x=x*10+(f[*i]-'0');
+
+             (*i)++;
+
+             k++;
+
+         }
+
+     }
+
+     while(k!=0)
+
+     {
+
+         x=x/10.0;
+
+         k=k-1;
+
+     }
+
+     return (x);
+
+ }
+
+ void evalpost(char f[],sequence_stack *s)
+
+ {
+
+    int i=0;
+
+    float x1,x2;
+
+    while(f[i]!='#')
+
+    {
+
+       if(f[i]>='0'&&f[i]<='9')
+
+       {
+
+         push_sequence_stack(s,readnumber(f,&i));
+
+        }
+
+        else if(f[i]==' ')
+            i++;
+
+        else if(f[i]=='+')
+
+        {
+
+            x2=s->a[--s->top];
+
+            x1=s->a[--s->top];
+
+           push_sequence_stack(s,x1+x2);
+
+           i++;
+
+        }
+
+        else if(f[i]=='-')
+
+        {
+
+            x2=s->a[--s->top];
+
+            x1=s->a[--s->top];
+
+            push_sequence_stack(s,x1-x2);
+
+            i++;
+
+        }
+
+        else if(f[i]=='*')
+
+        {
+
+            x2=s->a[--s->top];
+
+           x1=s->a[--s->top];
+
+            push_sequence_stack(s,x1*x2);
+
+            i++;
+
+        }
+
+        else if(f[i]=='/')
+
+        {
+
+            x2=s->a[--s->top];
+
+            x1=s->a[--s->top];
+
+             push_sequence_stack(s,x1/x2);
+
+            i++;
+
+        }
+
+    }
+
+ }
