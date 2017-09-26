@@ -10,7 +10,7 @@ void main()
 {
   FILE *fp;
   int length;
-  fp = fopen("wang.txt", "r");//´ò¿ªÒª¼ÆÊıµÄÎÄ¼ş
+  fp = fopen("wang.txt", "r");//æ‰“å¼€è¦è®¡æ•°çš„æ–‡ä»¶
   if (fp == NULL)
  {
    printf("can not open file");
@@ -19,14 +19,14 @@ void main()
 
 fseek(fp, 00, SEEK_END);
 length = ftell(fp);
-printf("%d\n", length);//È·¶¨ËùÒª²éÕÒµÄÎÄ¼şÖĞ×Ü×Ö·ûÊı³¤¶È£¬²¢ÔÚÆÁÄ»ÖĞÏÔÊ¾³öÀ´
+printf("%d\n", length);//ç¡®å®šæ‰€è¦æŸ¥æ‰¾çš„æ–‡ä»¶ä¸­æ€»å­—ç¬¦æ•°é•¿åº¦ï¼Œå¹¶åœ¨å±å¹•ä¸­æ˜¾ç¤ºå‡ºæ¥
 rewind(fp);
 char str[100000], c;
-fread(str, sizeof(char), length, fp);//´ÓÎÄ¼şÖĞ¶ÁÈ¡ËùÓĞµÄ×Ö·ûµ½strĞòÁĞ
+fread(str, sizeof(char), length, fp);//ä»æ–‡ä»¶ä¸­è¯»å–æ‰€æœ‰çš„å­—ç¬¦åˆ°stråºåˆ—
 int i, num1 = 0, num2 = 0, num3, num4=0, word = OUT;
 for (i = 0; (c = str[i]) != '\0'; i++)
 {
-   if (c == ' ')//ÅĞ¶Ï×Ö·ûÖĞµ¥´ÊÊı
+   if (c == ' ')//åˆ¤æ–­å•è¯æ•°
    {
     num2++;
     word = OUT;
@@ -44,11 +44,11 @@ for (i = 0; (c = str[i]) != '\0'; i++)
      num4++;
       }
    }
-     num3 = length - num2-num4*2;//×Ö·ûÊı   
-     num4++;//ĞĞÊı
+     num3 = length - num2-num4*2;//å­—ç¬¦æ•°   
+     num4++;//è¡Œæ•°
      fclose(fp);
-     printf("¿Õ¸ñÊıÎª%d\n", num2);
-     printf("µ¥´ÊÊıÎª%d\nĞĞÊıÎª%d\n×Ö·ûÊıÎª%d\n", num1, num4, num3);
+     printf("ç©ºæ ¼æ•°ä¸º%d\n", num2);
+     printf("å•è¯æ•°ä¸º%d\nè¡Œæ•°ä¸º%d\nå­—ç¬¦æ•°ä¸º%d\n", num1, num4, num3);
      system("pause");
 
 }
